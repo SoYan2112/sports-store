@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import '../../../../core/constants/app_colors.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../auth/presentation/bloc/auth_state.dart';
@@ -22,10 +23,7 @@ class ProfileHubScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.black,
-      appBar: AppBar(
-        title: const Text('TÀI KHOẢN CỦA TÔI'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('TÀI KHOẢN CỦA TÔI'), centerTitle: true),
       body: SafeArea(
         child: BlocBuilder<ProfileBloc, ProfileState>(
           builder: (context, state) {
@@ -38,13 +36,14 @@ class ProfileHubScreen extends StatelessWidget {
             final profile = (state is ProfileLoaded)
                 ? state.profile
                 : (state is ProfileUpdatedSuccess)
-                    ? state.profile
-                    : null;
+                ? state.profile
+                : null;
 
             if (profile == null) {
               return Center(
                 child: ElevatedButton(
-                  onPressed: () => context.read<ProfileBloc>().add(LoadProfileEvent()),
+                  onPressed: () =>
+                      context.read<ProfileBloc>().add(LoadProfileEvent()),
                   child: const Text('Tải lại dữ liệu'),
                 ),
               );
@@ -60,18 +59,28 @@ class ProfileHubScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       color: AppColors.darkSurface,
-                      border: Border.all(color: AppColors.neonVolt.withValues(alpha: 0.6)),
+                      border: Border.all(
+                        color: AppColors.neonVolt.withValues(alpha: 0.6),
+                      ),
                     ),
                     child: Row(
                       children: [
                         CircleAvatar(
                           radius: 36,
                           backgroundColor: AppColors.black,
-                          backgroundImage: profile.avatarUrl != null && profile.avatarUrl!.isNotEmpty
+                          backgroundImage:
+                              profile.avatarUrl != null &&
+                                  profile.avatarUrl!.isNotEmpty
                               ? NetworkImage(profile.avatarUrl!)
                               : null,
-                          child: profile.avatarUrl == null || profile.avatarUrl!.isEmpty
-                              ? const Icon(Icons.person, color: AppColors.neonVolt, size: 36)
+                          child:
+                              profile.avatarUrl == null ||
+                                  profile.avatarUrl!.isEmpty
+                              ? const Icon(
+                                  Icons.person,
+                                  color: AppColors.neonVolt,
+                                  size: 36,
+                                )
                               : null,
                         ),
                         const SizedBox(width: 16),
@@ -112,8 +121,8 @@ class ProfileHubScreen extends StatelessWidget {
                       final count = (addrState is AddressLoaded)
                           ? addrState.addresses.length
                           : (addrState is AddressActionSuccess)
-                              ? addrState.addresses.length
-                              : 0;
+                          ? addrState.addresses.length
+                          : 0;
 
                       return _buildStatItem('ĐỊA CHỈ ĐÃ LƯU', '$count địa chỉ');
                     },
@@ -165,26 +174,6 @@ class ProfileHubScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  _buildMenuTile(
-                    icon: Icons.receipt_long_outlined,
-                    title: 'Đơn hàng của tôi',
-                    subtitle: 'Lịch sử mua hàng, tra cứu mã vận đơn',
-                    onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Tính năng Lịch sử đơn hàng (Sprint 3)...')),
-                      );
-                    },
-                  ),
-                  _buildMenuTile(
-                    icon: Icons.confirmation_number_outlined,
-                    title: 'Kho Voucher & Ưu đãi',
-                    subtitle: 'Mã giảm giá thể thao dành riêng cho bạn',
-                    onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Tính năng Voucher (Sprint 3)...')),
-                      );
-                    },
-                  ),
                   const SizedBox(height: 24),
 
                   // Nút Đăng xuất
@@ -193,7 +182,9 @@ class ProfileHubScreen extends StatelessWidget {
                       backgroundColor: Colors.red.shade900,
                       foregroundColor: AppColors.white,
                       minimumSize: const Size(double.infinity, 52),
-                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
                     ),
                     icon: const Icon(Icons.logout, size: 20),
                     label: Text(
@@ -258,7 +249,11 @@ class ProfileHubScreen extends StatelessWidget {
               ),
             ],
           ),
-          const Icon(Icons.location_on_outlined, color: AppColors.neonVolt, size: 24),
+          const Icon(
+            Icons.location_on_outlined,
+            color: AppColors.neonVolt,
+            size: 24,
+          ),
         ],
       ),
     );
@@ -294,7 +289,11 @@ class ProfileHubScreen extends StatelessWidget {
             color: AppColors.textGray,
           ),
         ),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 14, color: AppColors.textGray),
+        trailing: const Icon(
+          Icons.arrow_forward_ios,
+          size: 14,
+          color: AppColors.textGray,
+        ),
         onTap: onTap,
       ),
     );

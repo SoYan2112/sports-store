@@ -1,4 +1,4 @@
-﻿# Kế hoạch Lộ trình 4 Phase (4 Sprints - 8 Tuần)
+# Kế hoạch Lộ trình 4 Phase (4 Sprints - 8 Tuần)
 ## Dự án: sports-store-mobile
 
 Lộ trình dự án được phân chia thành 4 Sprint (mỗi Sprint kéo dài 2 tuần), bảo đảm tiến độ phát triển song song của 5 thành viên không bị tắc nghẽn dependency.
@@ -30,12 +30,12 @@ Lộ trình dự án được phân chia thành 4 Sprint (mỗi Sprint kéo dài
 
 ### Sprint 3 (Tuần 5 - Tuần 6): Thanh toán (Checkout), Đơn hàng, Sổ địa chỉ VN & Voucher/Review
 - **Trọng tâm**: Hoàn tất phễu chuyển đổi mua hàng và tính năng giữ chân khách hàng (Retention).
-- **Tiến độ**: **0% (Chưa bắt đầu)**
+- **Tiến độ**: **17% (Đang thực hiện TSK-16 - Hoàn thành Lịch sử Đơn hàng)**
 - **Mục tiêu đạt được (Milestone 3)**:
   - Quản lý Hồ sơ cá nhân (Profile) & Sổ địa chỉ Việt Nam (3 cấp: Tỉnh/Thành -> Quận/Huyện -> Phường/Xã).
   - Áp dụng Voucher / Mã giảm giá: Kiểm tra tính hợp lệ của mã, trừ tiền trực tiếp trên đơn hàng.
   - Đặt hàng & Thanh toán (POST Order): Lựa chọn COD hoặc Cổng thanh toán trực tuyến (VNPAY / MoMo).
-  - Lịch sử Đơn hàng (Order History): Theo dõi trạng thái đơn (Chờ xác nhận, Đang giao, Đã giao, Đã hủy).
+  - `TSK-16` *(Đang làm)*: Đã hoàn thiện Lịch sử Đơn hàng (Order History) với 5 Tab trạng thái, hủy đơn và Unit Test 100%. Đang chuẩn bị UI Checkout.
   - Đánh giá & Nhận xét sản phẩm (Review & Rating): Xem danh sách đánh giá của khách, form gửi đánh giá kèm ảnh và số sao.
 
 ---
