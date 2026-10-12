@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sports_store_mobile/core/constants/app_colors.dart';
+
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_state.dart';
 import 'register_screen.dart';
@@ -29,20 +30,18 @@ class _LoginScreenState extends State<LoginScreen> {
   void _onLogin() {
     if (_formKey.currentState!.validate()) {
       context.read<AuthBloc>().add(
-            LoginEvent(
-              emailOrPhone: _emailController.text.trim(),
-              password: _passwordController.text,
-            ),
-          );
+        LoginEvent(
+          emailOrPhone: _emailController.text.trim(),
+          password: _passwordController.text,
+        ),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('ĐĂNG NHẬP'),
-      ),
+      appBar: AppBar(title: const Text('ĐĂNG NHẬP')),
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is Authenticated) {
@@ -94,7 +93,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: _emailController,
                     decoration: const InputDecoration(
                       labelText: 'EMAIL HOẶC SỐ ĐIỆN THOẠI',
-                      prefixIcon: Icon(Icons.person_outline, color: AppColors.textGray),
+                      prefixIcon: Icon(
+                        Icons.person_outline,
+                        color: AppColors.textGray,
+                      ),
                     ),
                     validator: (val) {
                       if (val == null || val.isEmpty) {
@@ -109,7 +111,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     obscureText: true,
                     decoration: const InputDecoration(
                       labelText: 'MẬT KHẨU',
-                      prefixIcon: Icon(Icons.lock_outline, color: AppColors.textGray),
+                      prefixIcon: Icon(
+                        Icons.lock_outline,
+                        color: AppColors.textGray,
+                      ),
                     ),
                     validator: (val) {
                       if (val == null || val.length < 6) {
@@ -125,10 +130,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (_) => const ForgotPasswordScreen()),
+                          MaterialPageRoute(
+                            builder: (_) => const ForgotPasswordScreen(),
+                          ),
                         );
                       },
-                      child: const Text('Quên mật khẩu?', style: TextStyle(color: AppColors.white)),
+                      child: const Text(
+                        'Quên mật khẩu?',
+                        style: TextStyle(color: AppColors.white),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -138,7 +148,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ? const SizedBox(
                             height: 20,
                             width: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2, color: Colors.black),
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.black,
+                            ),
                           )
                         : const Text('ĐĂNG NHẬP'),
                   ),
@@ -148,13 +161,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       Text(
                         'Chưa có tài khoản? ',
-                        style: GoogleFonts.montserrat(color: AppColors.textGray),
+                        style: GoogleFonts.montserrat(
+                          color: AppColors.textGray,
+                        ),
                       ),
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (_) => const RegisterScreen()),
+                            MaterialPageRoute(
+                              builder: (_) => const RegisterScreen(),
+                            ),
                           );
                         },
                         child: Text(

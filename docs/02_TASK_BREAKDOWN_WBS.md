@@ -1,4 +1,4 @@
-﻿# Bảng Phân Rã Công Việc Chi Tiết (Work Breakdown Structure - WBS)
+# Bảng Phân Rã Công Việc Chi Tiết (Work Breakdown Structure - WBS)
 ## Dự án: sports-store-mobile
 
 Bảng danh sách chi tiết các công việc, mã định danh, mô tả kỹ thuật, điều kiện nghiệm thu (Acceptance Criteria), mức độ ưu tiên và **Trạng thái thực tế**.
@@ -30,12 +30,12 @@ Bảng danh sách chi tiết các công việc, mã định danh, mô tả kỹ 
 
 ---
 
-### Phase 3: Profile, Vietnam Checkout, Voucher & Review (Sprint 3) - TIẾN ĐỘ: 0%
+### Phase 3: Profile, Vietnam Checkout, Voucher & Review (Sprint 3) - TIẾN ĐỘ: 29%
 
 | Task ID | Tên công việc | Mô tả kỹ thuật | Tiêu chí nghiệm thu (Acceptance Criteria) | Độ ưu tiên | Trạng thái |
 | :--- | :--- | :--- | :--- | :--- | :---: |
-| **TSK-12** | UI Quản lý Hồ sơ cá nhân & Sổ địa chỉ | Màn hình Thông tin người dùng (Họ tên, SĐT, Avatar). Màn hình Sổ địa chỉ: Form chọn Tỉnh/Thành -> Quận/Huyện -> Phường/Xã chuẩn Việt Nam. | - Dropdown 3 cấp chọn địa giới hành chính VN mượt mà.<br>- Đánh dấu địa chỉ mặc định khi giao hàng. | P1 | ⏹ Chưa làm |
-| **TSK-13** | Ghép API CRUD Sổ địa chỉ & Update Info | Gọi API cập nhật thông tin người dùng, thêm mới/chỉnh sửa/xóa địa chỉ nhận hàng. Lưu địa chỉ mặc định vào Cache/State. | - Dữ liệu địa chỉ được lưu trữ và hiển thị chính xác ở bước checkout.<br>- Xử lý validation số điện thoại nhận hàng VN. | P0 | ⏹ Chưa làm |
+| **TSK-12** | UI Quản lý Hồ sơ cá nhân & Sổ địa chỉ | Màn hình Thông tin người dùng (Họ tên, SĐT, Avatar). Màn hình Sổ địa chỉ: Form chọn Tỉnh/Thành -> Quận/Huyện -> Phường/Xã chuẩn Việt Nam. | - Dropdown 3 cấp chọn địa giới hành chính VN mượt mà.<br>- Đánh dấu địa chỉ mặc định khi giao hàng. | P1 | ✅ Hoàn thành |
+| **TSK-13** | Ghép API CRUD Sổ địa chỉ & Update Info | Gọi API cập nhật thông tin người dùng, thêm mới/chỉnh sửa/xóa địa chỉ nhận hàng. Lưu địa chỉ mặc định vào Cache/State. | - Dữ liệu địa chỉ được lưu trữ và hiển thị chính xác ở bước checkout.<br>- Xử lý validation số điện thoại nhận hàng VN. | P0 | ✅ Hoàn thành |
 | **TSK-14** | UI Quản lý & Áp dụng Mã giảm giá | Màn hình danh sách voucher khuyến mãi thể thao. Input nhập mã code giảm giá ở màn hình Checkout, hiển thị số tiền được giảm. | - Kiểm tra điều kiện áp dụng voucher (giá trị đơn tối thiểu, hạn dùng).<br>- Trừ tiền trực tiếp vào hóa đơn tạm tính. | P1 | ⏹ Chưa làm |
 | **TSK-15** | Ghép API Kiểm tra & Áp dụng Voucher | Viết `VoucherBloc`, gọi API xác thực mã giảm giá, trả về chiết khấu và cập nhật vào `CheckoutState`. | - Báo lỗi rõ ràng nếu mã hết hạn hoặc không đủ điều kiện.<br>- Khóa nút áp dụng khi chưa nhập mã. | P1 | ⏹ Chưa làm |
 | **TSK-16** | UI Thanh toán & Lịch sử Đơn hàng (User) | Màn hình Checkout: Tóm tắt đơn, chọn địa chỉ nhận, phương thức thanh toán (COD hoặc VNPAY/MoMo). Màn hình Lịch sử đơn hàng có tab phân loại trạng thái. | - Giao diện thanh toán sang trọng, rõ ràng từng khoản phí.<br>- Lịch sử đơn hiển thị đầy đủ mã đơn, ngày mua, trạng thái. | P1 | ⏹ Chưa làm |

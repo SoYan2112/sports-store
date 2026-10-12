@@ -12,6 +12,9 @@ import 'package:sports_store_mobile/features/cart/presentation/screens/cart_scre
 import 'package:sports_store_mobile/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:sports_store_mobile/features/auth/presentation/bloc/auth_state.dart';
 import 'package:sports_store_mobile/features/auth/presentation/screens/login_screen.dart';
+import 'package:sports_store_mobile/features/profile_address/data/datasources/vietnam_address_local_data.dart';
+import 'package:sports_store_mobile/features/profile_address/presentation/screens/profile_hub_screen.dart';
+import 'package:sports_store_mobile/features/profile_address/presentation/screens/address_list_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -33,7 +36,8 @@ class HomeScreen extends StatelessWidget {
       price: 2700000,
       imageUrl: 'https://assets.adidas.com/images/w_600,f_auto,q_auto/4e894c2b76dd4c8e9013aafc016047af_9366/Giay_Samba_OG_trang_B75806_01_00_standard.jpg',
       sizes: ['39', '40', '41', '42', '43'],
-      description: 'Huyền thoại phong cách đường phố đích thực, thiết kế da kinh điển.',
+      description:
+          'Huyền thoại phong cách đường phố đích thực, thiết kế da kinh điển.',
     ),
     ProductEntity(
       id: 'P3',
@@ -66,7 +70,11 @@ class HomeScreen extends StatelessWidget {
                     const CircleAvatar(
                       radius: 24,
                       backgroundColor: Colors.black,
-                      child: Icon(Icons.person, color: AppColors.neonVolt, size: 28),
+                      child: Icon(
+                        Icons.person,
+                        color: AppColors.neonVolt,
+                        size: 28,
+                      ),
                     ),
                     const SizedBox(width: 14),
                     Expanded(
@@ -98,28 +106,73 @@ class HomeScreen extends StatelessWidget {
                 const Divider(color: AppColors.borderGray, height: 1),
                 const SizedBox(height: 8),
                 ListTile(
-                  leading: const Icon(Icons.receipt_long_outlined, color: Colors.white),
+                  leading: const Icon(
+                    Icons.person_outline,
+                    color: Colors.white,
+                  ),
                   title: Text(
-                    'Đơn hàng của tôi',
-                    style: GoogleFonts.montserrat(color: Colors.white, fontSize: 14),
+                    'Tài khoản & Hồ sơ cá nhân',
+                    style: GoogleFonts.montserrat(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
                   ),
                   onTap: () {
                     Navigator.pop(bottomSheetContext);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Tính năng Lịch sử đơn hàng (Sprint 3)...')),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ProfileHubScreen(
+                          provinces: VietnamAddressLocalData.getProvinces(),
+                        ),
+                      ),
                     );
                   },
                 ),
                 ListTile(
-                  leading: const Icon(Icons.location_on_outlined, color: Colors.white),
+                  leading: const Icon(
+                    Icons.location_on_outlined,
+                    color: Colors.white,
+                  ),
                   title: Text(
                     'Sổ địa chỉ nhận hàng',
-                    style: GoogleFonts.montserrat(color: Colors.white, fontSize: 14),
+                    style: GoogleFonts.montserrat(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pop(bottomSheetContext);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => AddressListScreen(
+                          provinces: VietnamAddressLocalData.getProvinces(),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.receipt_long_outlined,
+                    color: Colors.white,
+                  ),
+                  title: Text(
+                    'Đơn hàng của tôi',
+                    style: GoogleFonts.montserrat(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
                   ),
                   onTap: () {
                     Navigator.pop(bottomSheetContext);
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Tính năng Sổ địa chỉ 3 cấp VN (Sprint 3)...')),
+                      const SnackBar(
+                        content: Text(
+                          'Tính năng Lịch sử đơn hàng (Sprint 3)...',
+                        ),
+                      ),
                     );
                   },
                 ),
@@ -155,15 +208,22 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ADIDAS VIỆT NAM'),
+        title: const Text('SPORTS STORE'),
         actions: [
           BlocBuilder<AuthBloc, AuthState>(
             builder: (context, state) {
               if (state is Authenticated) {
                 return IconButton(
-                  icon: const Icon(Icons.account_circle, color: AppColors.neonVolt),
+                  icon: const Icon(
+                    Icons.account_circle,
+                    color: AppColors.neonVolt,
+                  ),
                   tooltip: 'Tài khoản',
-                  onPressed: () => _showUserMenu(context, state.user.fullName, state.user.email),
+                  onPressed: () => _showUserMenu(
+                    context,
+                    state.user.fullName,
+                    state.user.email,
+                  ),
                 );
               }
               return IconButton(
@@ -231,7 +291,10 @@ class HomeScreen extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [Colors.black.withValues(alpha: 0.9), Colors.transparent],
+                        colors: [
+                          Colors.black.withValues(alpha: 0.9),
+                          Colors.transparent,
+                        ],
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
                       ),
@@ -245,7 +308,10 @@ class HomeScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
                         color: AppColors.neonVolt,
                         child: Text(
                           'BỘ SƯU TẬP 2026',
@@ -279,7 +345,7 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
           ),
-          
+
           const SizedBox(height: 24),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -300,12 +366,15 @@ class HomeScreen extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () {},
-                  child: const Text('Xem tất cả', style: TextStyle(color: AppColors.white)),
+                  child: const Text(
+                    'Xem tất cả',
+                    style: TextStyle(color: AppColors.white),
+                  ),
                 ),
               ],
             ),
           ),
-          
+
           // Danh Sách Sản Phẩm Card Grid
           ListView.separated(
             shrinkWrap: true,
@@ -325,7 +394,11 @@ class HomeScreen extends StatelessWidget {
                       height: 100,
                       color: Colors.black,
                       child: const Center(
-                        child: Icon(Icons.sports, size: 40, color: AppColors.textGray),
+                        child: Icon(
+                          Icons.sports,
+                          size: 40,
+                          color: AppColors.textGray,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -368,18 +441,18 @@ class HomeScreen extends StatelessWidget {
                             ),
                             onPressed: () {
                               context.read<CartBloc>().add(
-                                    AddToCartEvent(
-                                      CartItemEntity(
-                                        id: '${product.id}_${product.sizes.first}',
-                                        productId: product.id,
-                                        name: product.name,
-                                        price: product.price,
-                                        imageUrl: product.imageUrl,
-                                        size: product.sizes.first,
-                                        quantity: 1,
-                                      ),
-                                    ),
-                                  );
+                                AddToCartEvent(
+                                  CartItemEntity(
+                                    id: '${product.id}_${product.sizes.first}',
+                                    productId: product.id,
+                                    name: product.name,
+                                    price: product.price,
+                                    imageUrl: product.imageUrl,
+                                    size: product.sizes.first,
+                                    quantity: 1,
+                                  ),
+                                ),
+                              );
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   backgroundColor: AppColors.darkSurface,
