@@ -12,6 +12,7 @@ import 'package:sports_store_mobile/features/cart/presentation/screens/cart_scre
 import 'package:sports_store_mobile/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:sports_store_mobile/features/auth/presentation/bloc/auth_state.dart';
 import 'package:sports_store_mobile/features/auth/presentation/screens/login_screen.dart';
+import 'package:sports_store_mobile/features/checkout_order/presentation/screens/order_history_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -105,8 +106,11 @@ class HomeScreen extends StatelessWidget {
                   ),
                   onTap: () {
                     Navigator.pop(bottomSheetContext);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Tính năng Lịch sử đơn hàng (Sprint 3)...')),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const OrderHistoryScreen(),
+                      ),
                     );
                   },
                 ),
