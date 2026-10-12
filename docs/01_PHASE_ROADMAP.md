@@ -30,13 +30,13 @@ Lộ trình dự án được phân chia thành 4 Sprint (mỗi Sprint kéo dài
 
 ### Sprint 3 (Tuần 5 - Tuần 6): Thanh toán (Checkout), Đơn hàng, Sổ địa chỉ VN & Voucher/Review
 - **Trọng tâm**: Hoàn tất phễu chuyển đổi mua hàng và tính năng giữ chân khách hàng (Retention).
-- **Tiến độ**: **17% (Đang thực hiện TSK-16 - Hoàn thành Lịch sử Đơn hàng)**
+- **Tiến độ**: **50% (3/7 Tasks hoàn thành: TSK-12, TSK-13, TSK-14; Đang làm TSK-16, TSK-18)**
 - **Mục tiêu đạt được (Milestone 3)**:
-  - Quản lý Hồ sơ cá nhân (Profile) & Sổ địa chỉ Việt Nam (3 cấp: Tỉnh/Thành -> Quận/Huyện -> Phường/Xã).
-  - Áp dụng Voucher / Mã giảm giá: Kiểm tra tính hợp lệ của mã, trừ tiền trực tiếp trên đơn hàng.
+  - `TSK-12`, `TSK-13` *(Đã xong)*: Quản lý Hồ sơ cá nhân (Profile) & Sổ địa chỉ Việt Nam (3 cấp: Tỉnh/Thành -> Quận/Huyện -> Phường/Xã) kèm Unit & Widget test.
+  - `TSK-14` *(Đã xong)*: UI Quản lý Kho Voucher cá nhân (VoucherManagementScreen), Modal Áp dụng Mã giảm giá (ApplyVoucherBottomSheet) tích hợp trực tiếp vào CartScreen, trừ tiền theo chuẩn VNĐ.
   - Đặt hàng & Thanh toán (POST Order): Lựa chọn COD hoặc Cổng thanh toán trực tuyến (VNPAY / MoMo).
   - `TSK-16` *(Đang làm)*: Đã hoàn thiện Lịch sử Đơn hàng (Order History) với 5 Tab trạng thái, hủy đơn và Unit Test 100%. Đang chuẩn bị UI Checkout.
-  - Đánh giá & Nhận xét sản phẩm (Review & Rating): Xem danh sách đánh giá của khách, form gửi đánh giá kèm ảnh và số sao.
+  - `TSK-18` *(Đang làm - Đã xong UI)*: Hoàn thiện UI Danh sách Đánh giá (ReviewListScreen), Bộ lọc sao & ảnh, Thanh phân bố rating, và Màn hình Form chấm sao (RatingFormScreen). Chờ ghép API backend.
 
 ---
 

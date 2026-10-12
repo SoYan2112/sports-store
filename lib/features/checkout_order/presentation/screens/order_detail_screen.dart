@@ -13,6 +13,7 @@ import '../../../cart/presentation/screens/cart_screen.dart';
 import '../../domain/entities/order_entity.dart';
 import '../../domain/entities/order_status.dart';
 import '../widgets/order_status_badge.dart';
+import '../../../review_rating/presentation/screens/rating_form_screen.dart';
 
 class OrderDetailScreen extends StatelessWidget {
   final OrderEntity order;
@@ -520,6 +521,39 @@ class OrderDetailScreen extends StatelessWidget {
                             ),
                           ],
                         ),
+                        if (order.status == OrderStatus.delivered) ...[
+                          const SizedBox(height: 8),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: OutlinedButton.icon(
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: AppColors.neonVolt,
+                                side: const BorderSide(color: AppColors.neonVolt),
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                minimumSize: const Size(80, 30),
+                                shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+                              ),
+                              icon: const Icon(Icons.star_outline, size: 14),
+                              label: Text(
+                                'ĐÁNH GIÁ SẢN PHẨM',
+                                style: GoogleFonts.oswald(fontSize: 11, fontWeight: FontWeight.bold),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => RatingFormScreen(
+                                      productId: item.productId,
+                                      productName: item.name,
+                                      productCategory: 'Giày thể thao',
+                                      productImageUrl: item.imageUrl,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                   ),

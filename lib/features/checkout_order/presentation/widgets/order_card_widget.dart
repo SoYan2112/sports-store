@@ -8,6 +8,7 @@ import '../../domain/entities/order_entity.dart';
 import '../../domain/entities/order_status.dart';
 import 'order_status_badge.dart';
 import '../screens/order_detail_screen.dart';
+import '../../../review_rating/presentation/screens/rating_form_screen.dart';
 
 class OrderCardWidget extends StatelessWidget {
   final OrderEntity order;
@@ -272,6 +273,37 @@ class OrderCardWidget extends StatelessWidget {
                           'HỦY ĐƠN',
                           style: GoogleFonts.oswald(fontSize: 13, fontWeight: FontWeight.bold),
                         ),
+                      ),
+                      const SizedBox(width: 8),
+                    ],
+                    if (order.status == OrderStatus.delivered && order.items.isNotEmpty) ...[
+                      ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.neonVolt,
+                          foregroundColor: Colors.black,
+                          minimumSize: const Size(96, 36),
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+                        ),
+                        icon: const Icon(Icons.star_outline, size: 16),
+                        label: Text(
+                          'ĐÁNH GIÁ',
+                          style: GoogleFonts.oswald(fontSize: 12, fontWeight: FontWeight.bold),
+                        ),
+                        onPressed: () {
+                          final item = order.items.first;
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => RatingFormScreen(
+                                productId: item.productId,
+                                productName: item.name,
+                                productCategory: 'Giày thể thao',
+                                productImageUrl: item.imageUrl,
+                              ),
+                            ),
+                          );
+                        },
                       ),
                       const SizedBox(width: 8),
                     ],
