@@ -15,6 +15,9 @@ import 'package:sports_store_mobile/features/auth/presentation/screens/login_scr
 import 'package:sports_store_mobile/features/checkout_order/presentation/screens/order_history_screen.dart';
 import 'package:sports_store_mobile/features/profile_address/presentation/screens/profile_hub_screen.dart';
 import 'package:sports_store_mobile/features/profile_address/data/datasources/vietnam_address_local_data.dart';
+import 'package:sports_store_mobile/features/voucher/presentation/screens/voucher_management_screen.dart';
+import 'package:sports_store_mobile/features/review_rating/presentation/screens/review_list_screen.dart';
+import 'package:sports_store_mobile/features/review_rating/presentation/screens/my_reviews_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -147,6 +150,74 @@ class HomeScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (_) => const OrderHistoryScreen(),
+                      ),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.confirmation_number_outlined,
+                    color: AppColors.neonVolt,
+                  ),
+                  title: Text(
+                    'Kho Voucher',
+                    style: GoogleFonts.montserrat(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                  trailing: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    color: AppColors.neonOrange,
+                    child: Text(
+                      '4 MÃ',
+                      style: GoogleFonts.oswald(
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pop(bottomSheetContext);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const VoucherManagementScreen(),
+                      ),
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(
+                    Icons.rate_review_outlined,
+                    color: Colors.white,
+                  ),
+                  title: Text(
+                    'Đánh giá',
+                    style: GoogleFonts.montserrat(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                  trailing: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    color: AppColors.neonVolt,
+                    child: Text(
+                      '3 CHỜ ĐÁNH GIÁ',
+                      style: GoogleFonts.oswald(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pop(bottomSheetContext);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const MyReviewsScreen(),
                       ),
                     );
                   },
@@ -399,13 +470,47 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 6),
-                          Text(
-                            CurrencyFormatter.formatVnd(product.price),
-                            style: GoogleFonts.montserrat(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.neonOrange,
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                CurrencyFormatter.formatVnd(product.price),
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.neonOrange,
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => ReviewListScreen(
+                                        productId: product.id,
+                                        productName: product.name,
+                                        productCategory: product.category,
+                                        productImageUrl: product.imageUrl,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Row(
+                                  children: [
+                                    const Icon(Icons.star, color: AppColors.neonVolt, size: 13),
+                                    const SizedBox(width: 3),
+                                    Text(
+                                      '4.8 (128) xem đánh giá',
+                                      style: GoogleFonts.montserrat(
+                                        fontSize: 11.5,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.neonVolt,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                           const SizedBox(height: 8),
                           ElevatedButton(
