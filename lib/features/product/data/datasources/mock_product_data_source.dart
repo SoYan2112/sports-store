@@ -1,4 +1,4 @@
-import '../data/models/product_model.dart';
+import '../models/product_model.dart';
 
 class MockProductDataSource {
   static const List<String> categories = [

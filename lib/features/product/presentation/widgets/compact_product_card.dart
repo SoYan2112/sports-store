@@ -41,7 +41,7 @@ class CompactProductCard extends StatelessWidget {
                     child: Image.network(
                       product.imageUrl,
                       fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => const Center(
+                      errorBuilder: (context, error, stackTrace) => const Center(
                         child: Icon(Icons.sports, size: 36, color: AppColors.textGray),
                       ),
                     ),

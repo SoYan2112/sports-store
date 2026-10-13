@@ -1,4 +1,4 @@
-import '../domain/entities/product_entity.dart';
+import 'package:sports_store_mobile/features/product/domain/entities/product_entity.dart';
 
 class ProductModel extends ProductEntity {
   final double? originalPrice;
@@ -64,4 +64,20 @@ class ProductModel extends ProductEntity {
       'isNew': isNew,
     };
   }
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        category,
+        price,
+        imageUrl,
+        sizes,
+        description,
+        originalPrice,
+        rating,
+        reviewCount,
+        isFeatured,
+        isNew,
+      ];
 }
