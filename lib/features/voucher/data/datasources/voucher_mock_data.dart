@@ -1,0 +1,165 @@
+import 'package:sports_store_mobile/features/voucher/domain/entities/voucher_entity.dart';
+
+class VoucherMockData {
+  static List<VoucherEntity> getAvailableVouchers() {
+    final now = DateTime.now();
+    return [
+      VoucherEntity(
+        id: 'V1',
+        code: 'ADICLUB15',
+        title: 'GIẢM 15% TỐI ĐA 150.000 ₫',
+        description: 'Áp dụng cho toàn bộ giày chạy bộ và phụ kiện thể thao chính hãng.',
+        discountType: VoucherDiscountType.percentage,
+        discountValue: 15,
+        maxDiscountAmount: 150000,
+        minOrderAmount: 1000000,
+        startDate: now.subtract(const Duration(days: 5)),
+        endDate: now.add(const Duration(days: 15)),
+        usageLimit: 200,
+        usedCount: 78,
+      ),
+      VoucherEntity(
+        id: 'V2',
+        code: 'FREESHIPMAX',
+        title: 'MIỄN PHÍ VẬN CHUYỂN TOÀN QUỐC',
+        description: 'Tài trợ 100% phí giao hàng hỏa tốc và tiêu chuẩn trên toàn lãnh thổ Việt Nam.',
+        discountType: VoucherDiscountType.freeShipping,
+        discountValue: 40000,
+        minOrderAmount: 500000,
+        startDate: now.subtract(const Duration(days: 10)),
+        endDate: now.add(const Duration(days: 20)),
+        usageLimit: 500,
+        usedCount: 312,
+      ),
+      VoucherEntity(
+        id: 'V3',
+        code: 'SUPERSPORT100',
+        title: 'GIẢM NGAY 100.000 ₫ TRỰC TIẾP',
+        description: 'Ưu đãi dành riêng cho đơn hàng giày bóng đá và giày tập gym.',
+        discountType: VoucherDiscountType.fixedAmount,
+        discountValue: 100000,
+        minOrderAmount: 1500000,
+        startDate: now.subtract(const Duration(days: 2)),
+        endDate: now.add(const Duration(days: 10)),
+        usageLimit: 150,
+        usedCount: 45,
+      ),
+      VoucherEntity(
+        id: 'V4',
+        code: 'RUNNER20',
+        title: 'GIẢM 20% TỐI ĐA 300.000 ₫',
+        description: 'Dành cho các vận động viên và thành viên yêu thích chạy bộ marathon.',
+        discountType: VoucherDiscountType.percentage,
+        discountValue: 20,
+        maxDiscountAmount: 300000,
+        minOrderAmount: 2000000,
+        startDate: now.subtract(const Duration(days: 1)),
+        endDate: now.add(const Duration(days: 30)),
+        usageLimit: 100,
+        usedCount: 22,
+      ),
+    ];
+  }
+
+  static List<VoucherEntity> getExpiredOrUsedVouchers() {
+    final now = DateTime.now();
+    return [
+      VoucherEntity(
+        id: 'V5',
+        code: 'WELCOME50K',
+        title: 'GIẢM 50.000 ₫ THÀNH VIÊN MỚI',
+        description: 'Mã chào mừng tài khoản mới - Đã sử dụng cho đơn hàng đầu tiên.',
+        discountType: VoucherDiscountType.fixedAmount,
+        discountValue: 50000,
+        minOrderAmount: 500000,
+        startDate: now.subtract(const Duration(days: 60)),
+        endDate: now.subtract(const Duration(days: 30)),
+        usageLimit: 1,
+        usedCount: 1,
+      ),
+      VoucherEntity(
+        id: 'V6',
+        code: 'SUMMERSALE25',
+        title: 'GIẢM 25% HÈ RỰC LỬA',
+        description: 'Chương trình khuyến mãi mùa hè - Mã đã hết thời hạn áp dụng.',
+        discountType: VoucherDiscountType.percentage,
+        discountValue: 25,
+        maxDiscountAmount: 250000,
+        minOrderAmount: 1200000,
+        startDate: now.subtract(const Duration(days: 45)),
+        endDate: now.subtract(const Duration(days: 5)),
+        usageLimit: 300,
+        usedCount: 300,
+      ),
+    ];
+  }
+
+  /// Danh sách voucher khuyến mãi theo từng dòng sản phẩm thể thao (Săn voucher)
+  static List<VoucherEntity> getDiscoverableVouchers() {
+    final now = DateTime.now();
+    return [
+      VoucherEntity(
+        id: 'DISC_01',
+        code: 'RUNNING15',
+        title: 'GIẢM 15% CHO GIÀY CHẠY BỘ',
+        description: 'Áp dụng cho Ultraboost Light, Adizero Adios Pro và Boston 12.',
+        discountType: VoucherDiscountType.percentage,
+        discountValue: 15,
+        maxDiscountAmount: 200000,
+        minOrderAmount: 1500000,
+        startDate: now,
+        endDate: now.add(const Duration(days: 30)),
+        usageLimit: 500,
+        usedCount: 120,
+        categoryName: 'DÒNG RUNNING (CHẠY BỘ)',
+        isClaimed: false,
+      ),
+      VoucherEntity(
+        id: 'DISC_02',
+        code: 'FOOTBALL100K',
+        title: 'GIẢM 100.000 ₫ GIÀY ĐÁ BANH',
+        description: 'Dành riêng cho dòng giày sân cỏ Predator Elite, X Crazyfast và Copa Pure.',
+        discountType: VoucherDiscountType.fixedAmount,
+        discountValue: 100000,
+        minOrderAmount: 1200000,
+        startDate: now,
+        endDate: now.add(const Duration(days: 20)),
+        usageLimit: 300,
+        usedCount: 65,
+        categoryName: 'DÒNG FOOTBALL (BÓNG ĐÁ)',
+        isClaimed: false,
+      ),
+      VoucherEntity(
+        id: 'DISC_03',
+        code: 'ORIGINALS20',
+        title: 'GIẢM 20% DÒNG ORIGINALS',
+        description: 'Đặc quyền phong cách đường phố: Samba OG, Gazelle Indoor, Superstar Classic.',
+        discountType: VoucherDiscountType.percentage,
+        discountValue: 20,
+        maxDiscountAmount: 300000,
+        minOrderAmount: 2000000,
+        startDate: now,
+        endDate: now.add(const Duration(days: 25)),
+        usageLimit: 200,
+        usedCount: 88,
+        categoryName: 'DÒNG ORIGINALS (THỜI TRANG)',
+        isClaimed: false,
+      ),
+      VoucherEntity(
+        id: 'DISC_04',
+        code: 'TRAININGFREE',
+        title: 'FREESHIP QUẦN ÁO TẬP GYM',
+        description: 'Miễn phí giao hàng cho toàn bộ bộ sưu tập đồ tập luyện AeroReady & phụ kiện.',
+        discountType: VoucherDiscountType.freeShipping,
+        discountValue: 35000,
+        minOrderAmount: 400000,
+        startDate: now,
+        endDate: now.add(const Duration(days: 45)),
+        usageLimit: 600,
+        usedCount: 140,
+        categoryName: 'DÒNG TRAINING & FITNESS',
+        isClaimed: false,
+      ),
+    ];
+  }
+}

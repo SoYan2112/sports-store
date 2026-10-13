@@ -7,8 +7,18 @@ import '../bloc/cart_bloc.dart';
 import '../bloc/cart_event.dart';
 import '../bloc/cart_state.dart';
 
-class CartScreen extends StatelessWidget {
+import 'package:sports_store_mobile/features/voucher/domain/entities/voucher_entity.dart';
+import 'package:sports_store_mobile/features/voucher/presentation/widgets/apply_voucher_bottom_sheet.dart';
+
+class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
+
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  VoucherEntity? _appliedVoucher;
 
   @override
   Widget build(BuildContext context) {
@@ -139,52 +149,188 @@ class CartScreen extends StatelessWidget {
                 ),
               ),
 
-              // Bottom Checkout Box
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: const BoxDecoration(
-                  color: AppColors.darkSurface,
-                  border: Border(top: BorderSide(color: AppColors.borderGray, width: 0.1)),
-                ),
-                child: SafeArea(
-                  child: Column(
+              // Khối Áp dụng Mã giảm giá (Voucher)
+              InkWell(
+                onTap: () async {
+                  final result = await ApplyVoucherBottomSheet.show(
+                    context: context,
+                    orderTotal: state.totalAmount.toDouble(),
+                    currentVoucher: _appliedVoucher,
+                  );
+                  if (mounted) {
+                    setState(() {
+                      _appliedVoucher = result;
+                    });
+                  }
+                },
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: AppColors.darkSurface,
+                    border: Border.all(
+                      color: _appliedVoucher != null
+                          ? AppColors.neonVolt
+                          : AppColors.borderGray.withValues(alpha: 0.2),
+                    ),
+                  ),
+                  child: Row(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'TỔNG TIỀN TẠM TÍNH',
-                            style: GoogleFonts.oswald(
-                              color: AppColors.textGray,
-                              fontSize: 14,
-                              letterSpacing: 1,
-                            ),
-                          ),
-                          Text(
-                            CurrencyFormatter.formatVnd(state.totalAmount),
-                            style: GoogleFonts.montserrat(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w900,
-                              color: AppColors.white,
-                            ),
-                          ),
-                        ],
+                      Icon(
+                        Icons.confirmation_number_outlined,
+                        color: _appliedVoucher != null ? AppColors.neonVolt : AppColors.textGray,
+                        size: 22,
                       ),
-                      const SizedBox(height: 16),
-                      ElevatedButton(
-                        onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              backgroundColor: AppColors.success,
-                              content: Text('Chuyển sang màn hình thanh toán COD / VNPAY...'),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              _appliedVoucher != null
+                                  ? 'MÃ GIẢM GIÁ: ${_appliedVoucher!.code}'
+                                  : 'MÃ GIẢM GIÁ / VOUCHER ADIDAS',
+                              style: GoogleFonts.oswald(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: _appliedVoucher != null
+                                    ? AppColors.neonVolt
+                                    : AppColors.white,
+                                letterSpacing: 0.5,
+                              ),
                             ),
-                          );
-                        },
-                        child: const Text('TIẾN HÀNH THANH TOÁN (COD / VNPAY)'),
+                            Text(
+                              _appliedVoucher != null
+                                  ? 'Đã giảm: -${CurrencyFormatter.formatVnd(_appliedVoucher!.calculateDiscount(state.totalAmount.toDouble()))}'
+                                  : 'Chọn hoặc nhập mã để nhận chiết khấu',
+                              style: GoogleFonts.montserrat(
+                                fontSize: 12,
+                                color: _appliedVoucher != null
+                                    ? AppColors.white
+                                    : AppColors.textGray,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Text(
+                        _appliedVoucher != null ? 'THAY ĐỔI >' : 'CHỌN MÃ >',
+                        style: GoogleFonts.oswald(
+                          fontSize: 12,
+                          color: AppColors.textGray,
+                          letterSpacing: 0.5,
+                        ),
                       ),
                     ],
                   ),
                 ),
+              ),
+
+              // Bottom Checkout Box
+              Builder(
+                builder: (context) {
+                  final discount = _appliedVoucher != null
+                      ? _appliedVoucher!.calculateDiscount(state.totalAmount.toDouble())
+                      : 0.0;
+                  final finalAmount = (state.totalAmount - discount).clamp(0.0, double.infinity);
+
+                  return Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: const BoxDecoration(
+                      color: AppColors.darkSurface,
+                      border: Border(top: BorderSide(color: AppColors.borderGray, width: 0.1)),
+                    ),
+                    child: SafeArea(
+                      child: Column(
+                        children: [
+                          if (discount > 0) ...[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'TIỀN HÀNG GỐC',
+                                  style: GoogleFonts.oswald(
+                                    color: AppColors.textGray,
+                                    fontSize: 12,
+                                    letterSpacing: 1,
+                                  ),
+                                ),
+                                Text(
+                                  CurrencyFormatter.formatVnd(state.totalAmount),
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 14,
+                                    color: AppColors.textGray,
+                                    decoration: TextDecoration.lineThrough,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'GIẢM GIÁ VOUCHER (${_appliedVoucher!.code})',
+                                  style: GoogleFonts.oswald(
+                                    color: AppColors.neonVolt,
+                                    fontSize: 12,
+                                    letterSpacing: 1,
+                                  ),
+                                ),
+                                Text(
+                                  '-${CurrencyFormatter.formatVnd(discount)}',
+                                  style: GoogleFonts.montserrat(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.neonVolt,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            const Divider(color: AppColors.borderGray, height: 1, thickness: 0.1),
+                            const SizedBox(height: 8),
+                          ],
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'TỔNG THANH TOÁN',
+                                style: GoogleFonts.oswald(
+                                  color: AppColors.textGray,
+                                  fontSize: 14,
+                                  letterSpacing: 1,
+                                ),
+                              ),
+                              Text(
+                                CurrencyFormatter.formatVnd(finalAmount),
+                                style: GoogleFonts.montserrat(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w900,
+                                  color: AppColors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: AppColors.success,
+                                  content: Text(
+                                    'Tiến hành thanh toán đơn ${CurrencyFormatter.formatVnd(finalAmount)} (COD / VNPAY)...',
+                                  ),
+                                ),
+                              );
+                            },
+                            child: const Text('TIẾN HÀNH THANH TOÁN (COD / VNPAY)'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           );
