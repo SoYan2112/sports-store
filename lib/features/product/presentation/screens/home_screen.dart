@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sports_store_mobile/core/constants/app_colors.dart';
-import 'package:sports_store_mobile/core/utils/currency_formatter.dart';
 import 'package:sports_store_mobile/features/product/domain/entities/product_entity.dart';
+import 'package:sports_store_mobile/features/product/data/datasources/mock_product_data_source.dart';
+import 'package:sports_store_mobile/features/product/data/models/product_model.dart';
+import 'package:sports_store_mobile/features/product/presentation/widgets/category_filter_chips.dart';
+import 'package:sports_store_mobile/features/product/presentation/widgets/promo_banner_widget.dart';
+import 'package:sports_store_mobile/features/product/presentation/widgets/product_grid_widget.dart';
+import 'package:sports_store_mobile/features/product/presentation/screens/product_search_screen.dart';
 import 'package:sports_store_mobile/features/cart/domain/entities/cart_item_entity.dart';
 import 'package:sports_store_mobile/features/cart/presentation/bloc/cart_bloc.dart';
 import 'package:sports_store_mobile/features/cart/presentation/bloc/cart_event.dart';
@@ -16,42 +21,28 @@ import 'package:sports_store_mobile/features/checkout_order/presentation/screens
 import 'package:sports_store_mobile/features/profile_address/presentation/screens/profile_hub_screen.dart';
 import 'package:sports_store_mobile/features/profile_address/data/datasources/vietnam_address_local_data.dart';
 import 'package:sports_store_mobile/features/voucher/presentation/screens/voucher_management_screen.dart';
-import 'package:sports_store_mobile/features/review_rating/presentation/screens/review_list_screen.dart';
 import 'package:sports_store_mobile/features/review_rating/presentation/screens/my_reviews_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
-  static const List<ProductEntity> mockProducts = [
-    ProductEntity(
-      id: 'P1',
-      name: 'ULTRABOOST LIGHT 23',
-      category: 'RUNNING',
-      price: 4900000,
-      imageUrl: 'https://assets.adidas.com/images/w_600,f_auto,q_auto/a225e6f3d82d4fb4bc00af6b0147fc5e_9366/Ultraboost_Light_Running_Shoes_White_HQ6351_01_standard.jpg',
-      sizes: ['40', '41', '42', '43'],
-      description: 'Đôi giày chạy bộ nhẹ nhất từ trước đến nay của chúng tôi, tạo ra nguồn năng lượng vô tận.',
-    ),
-    ProductEntity(
-      id: 'P2',
-      name: 'SAMBA OG CLASSIC',
-      category: 'ORIGINALS',
-      price: 2700000,
-      imageUrl: 'https://assets.adidas.com/images/w_600,f_auto,q_auto/4e894c2b76dd4c8e9013aafc016047af_9366/Giay_Samba_OG_trang_B75806_01_00_standard.jpg',
-      sizes: ['39', '40', '41', '42', '43'],
-      description:
-          'Huyền thoại phong cách đường phố đích thực, thiết kế da kinh điển.',
-    ),
-    ProductEntity(
-      id: 'P3',
-      name: 'PREDATOR ELITE FG',
-      category: 'FOOTBALL',
-      price: 6500000,
-      imageUrl: 'https://assets.adidas.com/images/w_600,f_auto,q_auto/9d115469ad104f4c82c6b052011b1c67_9366/Giay_Predator_Elite_Firm_Ground_den_IF8867_01_standard.jpg',
-      sizes: ['40', '41', '42', '42.5'],
-      description: 'Tối ưu độ chính xác và lực sút trên sân cỏ tự nhiên.',
-    ),
-  ];
+  static const List<ProductEntity> mockProducts = MockProductDataSource.mockProducts;
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  String _selectedCategory = 'TẤT CẢ';
+
+  List<ProductModel> get _displayedProducts {
+    if (_selectedCategory == 'TẤT CẢ') {
+      return MockProductDataSource.mockProducts;
+    }
+    return MockProductDataSource.mockProducts
+        .where((p) => p.category.toUpperCase() == _selectedCategory.toUpperCase())
+        .toList();
+  }
 
   void _showUserMenu(BuildContext context, String userName, String userEmail) {
     showModalBottomSheet(
@@ -160,21 +151,24 @@ class HomeScreen extends StatelessWidget {
                     color: AppColors.neonVolt,
                   ),
                   title: Text(
-                    'Kho Voucher',
+                    'Kho Voucher giảm giá',
                     style: GoogleFonts.montserrat(
                       color: Colors.white,
                       fontSize: 14,
                     ),
                   ),
                   trailing: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 2,
+                    ),
                     color: AppColors.neonOrange,
                     child: Text(
                       '4 MÃ',
                       style: GoogleFonts.oswald(
+                        color: Colors.white,
                         fontSize: 11,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
                       ),
                     ),
                   ),
@@ -191,24 +185,27 @@ class HomeScreen extends StatelessWidget {
                 ListTile(
                   leading: const Icon(
                     Icons.rate_review_outlined,
-                    color: Colors.white,
+                    color: AppColors.neonVolt,
                   ),
                   title: Text(
-                    'Đánh giá',
+                    'Đánh giá của tôi',
                     style: GoogleFonts.montserrat(
                       color: Colors.white,
                       fontSize: 14,
                     ),
                   ),
                   trailing: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 2,
+                    ),
                     color: AppColors.neonVolt,
                     child: Text(
                       '3 CHỜ ĐÁNH GIÁ',
                       style: GoogleFonts.oswald(
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
                         color: Colors.black,
+                        fontSize: 11,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
@@ -250,12 +247,51 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  void _onAddToCart(ProductModel product) {
+    context.read<CartBloc>().add(
+      AddToCartEvent(
+        CartItemEntity(
+          id: '${product.id}_${product.sizes.first}',
+          productId: product.id,
+          name: product.name,
+          price: product.price,
+          imageUrl: product.imageUrl,
+          size: product.sizes.first,
+          quantity: 1,
+        ),
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: AppColors.darkSurface,
+        content: Text(
+          'Đã thêm ${product.name} (Size ${product.sizes.first}) vào giỏ hàng!',
+          style: const TextStyle(color: Colors.white),
+        ),
+        duration: const Duration(seconds: 1),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final products = _displayedProducts;
+
     return Scaffold(
+      backgroundColor: AppColors.black,
       appBar: AppBar(
-        title: const Text('SPORTS STORE'),
+        title: const Text('ADIDAS VIỆT NAM'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            tooltip: 'Tìm kiếm sản phẩm',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const ProductSearchScreen()),
+              );
+            },
+          ),
           BlocBuilder<AuthBloc, AuthState>(
             builder: (context, state) {
               if (state is Authenticated) {
@@ -326,73 +362,23 @@ class HomeScreen extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          // Banner Thể Thao Phong Cách Adidas
-          Container(
-            height: 220,
-            width: double.infinity,
-            color: AppColors.darkSurface,
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.black.withValues(alpha: 0.9),
-                          Colors.transparent,
-                        ],
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 20,
-                  bottom: 24,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        color: AppColors.neonVolt,
-                        child: Text(
-                          'BỘ SƯU TẬP 2026',
-                          style: GoogleFonts.oswald(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'YOU GOT THIS.',
-                        style: GoogleFonts.oswald(
-                          fontSize: 32,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.white,
-                          letterSpacing: 2,
-                        ),
-                      ),
-                      Text(
-                        'Đánh thức đam mê thể thao chuẩn Việt Nam',
-                        style: GoogleFonts.montserrat(
-                          color: AppColors.textGray,
-                          fontSize: 13,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // 1. Promo Banner Hero
+          const PromoBannerWidget(),
+          const SizedBox(height: 16),
 
-          const SizedBox(height: 24),
+          // 2. Category Filter Chips (TẤT CẢ, RUNNING, FOOTBALL, ORIGINALS, ...)
+          CategoryFilterChips(
+            categories: MockProductDataSource.categories,
+            selectedCategory: _selectedCategory,
+            onSelected: (cat) {
+              setState(() {
+                _selectedCategory = cat;
+              });
+            },
+          ),
+          const SizedBox(height: 16),
+
+          // 3. Section Title
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
@@ -400,7 +386,9 @@ class HomeScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    'SẢN PHẨM NỔI BẬT',
+                    _selectedCategory == 'TẤT CẢ'
+                        ? 'SẢN PHẨM NỔI BẬT'
+                        : 'DANH MỤC: $_selectedCategory',
                     style: GoogleFonts.oswald(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -410,150 +398,25 @@ class HomeScreen extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'Xem tất cả',
-                    style: TextStyle(color: AppColors.white),
+                Text(
+                  '${products.length} MÓN',
+                  style: GoogleFonts.montserrat(
+                    color: AppColors.textGray,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
             ),
           ),
+          const SizedBox(height: 12),
 
-          // Danh Sách Sản Phẩm Card Grid
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            padding: const EdgeInsets.all(16),
-            itemCount: mockProducts.length,
-            separatorBuilder: (_, _) => const SizedBox(height: 16),
-            itemBuilder: (context, index) {
-              final product = mockProducts[index];
-              return Container(
-                padding: const EdgeInsets.all(12),
-                color: AppColors.darkSurface,
-                child: Row(
-                  children: [
-                    Container(
-                      width: 100,
-                      height: 100,
-                      color: Colors.black,
-                      child: const Center(
-                        child: Icon(
-                          Icons.sports,
-                          size: 40,
-                          color: AppColors.textGray,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            product.category,
-                            style: GoogleFonts.oswald(
-                              color: AppColors.textGray,
-                              fontSize: 11,
-                              letterSpacing: 1.2,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            product.name,
-                            style: GoogleFonts.oswald(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1,
-                            ),
-                          ),
-                          const SizedBox(height: 6),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                CurrencyFormatter.formatVnd(product.price),
-                                style: GoogleFonts.montserrat(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.neonOrange,
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => ReviewListScreen(
-                                        productId: product.id,
-                                        productName: product.name,
-                                        productCategory: product.category,
-                                        productImageUrl: product.imageUrl,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: Row(
-                                  children: [
-                                    const Icon(Icons.star, color: AppColors.neonVolt, size: 13),
-                                    const SizedBox(width: 3),
-                                    Text(
-                                      '4.8 (128) xem đánh giá',
-                                      style: GoogleFonts.montserrat(
-                                        fontSize: 11.5,
-                                        fontWeight: FontWeight.w600,
-                                        color: AppColors.neonVolt,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 8),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: const Size(double.infinity, 36),
-                              backgroundColor: AppColors.white,
-                              foregroundColor: AppColors.black,
-                            ),
-                            onPressed: () {
-                              context.read<CartBloc>().add(
-                                AddToCartEvent(
-                                  CartItemEntity(
-                                    id: '${product.id}_${product.sizes.first}',
-                                    productId: product.id,
-                                    name: product.name,
-                                    price: product.price,
-                                    imageUrl: product.imageUrl,
-                                    size: product.sizes.first,
-                                    quantity: 1,
-                                  ),
-                                ),
-                              );
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  backgroundColor: AppColors.darkSurface,
-                                  content: Text(
-                                    'Đã thêm ${product.name} (Size ${product.sizes.first}) vào giỏ hàng!',
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
-                                  duration: const Duration(seconds: 1),
-                                ),
-                              );
-                            },
-                            child: const Text('THÊM VÀO GIỎ'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
+          // 4. Product Grid Layout (Compact, Balanced Spacing)
+          ProductGridWidget(
+            products: products,
+            onAddToCart: _onAddToCart,
           ),
+          const SizedBox(height: 24),
         ],
       ),
     );
